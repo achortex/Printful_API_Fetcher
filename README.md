@@ -10,6 +10,9 @@ A powerful tool to fetch print templates and product mockups from the Printful A
 - **API Integration**: Direct integration with the Printful API
 - **Caching**: Efficient caching to reduce API calls and improve performance
 
+![Printful API Fetcher Interface](preview.png)
+*The Printful API Fetcher interface showing the template generation process for a hoodie product*
+
 ## Installation
 
 1. Clone this repository:
