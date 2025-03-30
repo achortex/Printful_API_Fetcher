@@ -1,6 +1,6 @@
 # Printful API Fetcher for Products, Variants, Templates and Mockups
 
-A powerful tool to fetch print templates and product mockups from the Printful API for your Printful store products.
+A tool to fetch print templates and product mockups from the Printful API for your Printful store products.
 
 ## Features
 
