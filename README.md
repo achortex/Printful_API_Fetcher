@@ -2,6 +2,12 @@
 
 A powerful tool to fetch print templates and product mockups from the Printful API for your Printful store products.
 
+## Quick Start
+
+Try the online demo at: https://printful.streamlit.app/
+
+No installation required! Just visit the link above to start using the tool right away.
+
 ## Features
 
 - **Template Fetching**: Fetch and download print templates for your Printful products
