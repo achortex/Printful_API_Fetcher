@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Printful API Fetcher - A tool to fetch print templates and product mockups from the Printful API for your Printful store products">
+    <meta name="keywords" content="Printful, API, Templates, Mockups, Print-on-demand">
+    <meta name="author" content="AChortex">
+    <meta name="google-site-verification" content="vtnOV2rrOYFx49WEmSYI1b_0zBI6WRZyW6TNhhp414s" />
+    <title>Printful API Fetcher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --primary-color: #6366F1; /* Indigo */
+            --secondary-color: #8B5CF6; /* Purple */
+            --accent-color: #EC4899; /* Pink */
+            --highlight-color: #F59E0B; /* Amber */
+            --background-color: #F9FAFB;
+            --card-bg-color: #FFFFFF;
+            --text-color: #1F2937;
+            --light-text: #6B7280;
+            --white: #fff;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --border-radius: 12px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 3rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeIn 1.2s ease-out;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--white);
+            color: var(--primary-color);
+            padding: 0.9rem 1.8rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            animation: fadeInUp 1.4s ease-out;
+        }
+        
+        .cta-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s ease;
+            z-index: -1;
+        }
+        
+        .cta-button:hover:before {
+            left: 100%;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            background-color: var(--accent-color);
+            color: var(--white);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background-color: var(--card-bg-color);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            border-top: 4px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card:nth-child(1) { border-top-color: var(--primary-color); }
+        .feature-card:nth-child(2) { border-top-color: var(--secondary-color); }
+        .feature-card:nth-child(3) { border-top-color: var(--accent-color); }
+        .feature-card:nth-child(4) { border-top-color: var(--highlight-color); }
+        .feature-card:nth-child(5) { border-top-color: var(--primary-color); }
+        .feature-card:nth-child(6) { border-top-color: var(--secondary-color); }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .feature-card:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+            pointer-events: none;
+        }
+        
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .feature-card:nth-child(2) h3 { color: var(--secondary-color); }
+        .feature-card:nth-child(3) h3 { color: var(--accent-color); }
+        .feature-card:nth-child(4) h3 { color: var(--highlight-color); }
+        .feature-card:nth-child(5) h3 { color: var(--primary-color); }
+        .feature-card:nth-child(6) h3 { color: var(--secondary-color); }
+        
+        .feature-card p {
+            color: var(--light-text);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            display: block;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+        
+        .decorative-3d-element {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .decorative-3d-element.top-right {
+            top: 10%;
+            right: 5%;
+            width: 250px;
+            height: 250px;
+        }
+        
+        .decorative-3d-element.bottom-left {
+            bottom: 10%;
+            left: 5%;
+            width: 180px;
+            height: 180px;
+        }
+        
+        .decorative-3d-element.features-bg {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            opacity: 0.2;
+            z-index: -1;
+        }
+        
+        .installation {
+            background-color: var(--card-bg-color);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            margin-top: 3rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .installation:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+        
+        .code-block {
+            background-color: #2D3748;
+            color: #E2E8F0;
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin: 1.2rem 0;
+            font-family: monospace;
+            overflow-x: auto;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .code-block code {
+            display: block;
+            line-height: 1.5;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        
+        .footer-links a {
+            color: var(--white);
+            margin: 0 1.2rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .footer-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--white);
+            transition: width 0.3s ease;
+        }
+        
+        .footer-links a:hover:after {
+            width: 100%;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .canvas-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Printful API Fetcher</h1>
+            <p class="subtitle">A powerful tool to fetch print templates and product mockups from the Printful API for your store products</p>
+            <div style="position: relative; display: flex; align-items: center; justify-content: center;">
+                <div style="position: relative; z-index: 2;">
+                    <a href="https://printful.streamlit.app/" class="cta-button" target="_blank">Try Online Demo</a>
+                    <a href="https://github.com/achortex/Printful_API_Fetcher" class="cta-button" target="_blank">View on GitHub <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.8em; margin-left: 4px;"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        
+        <h2 class="section-title animate-on-scroll">Features</h2>
+        <div class="features">
+            <div class="feature-card animate-on-scroll">
+                <h3>Template Fetching</h3>
+                <p>Fetch and download print templates for your Printful products with ease. Get the exact specifications you need for your designs.</p>
+            </div>
+            <div class="feature-card animate-on-scroll">
+                <h3>Mockup Generation</h3>
+                <p>Generate high-quality product mockups directly from the Printful API. Visualize your products before production.</p>
+            </div>
+            <div class="feature-card animate-on-scroll">
+                <h3>Product Management</h3>
+                <p>Easily select and manage products from your Printful store. Streamline your product development workflow.</p>
+            </div>
+            <div class="feature-card animate-on-scroll">
+                <h3>API Integration</h3>
+                <p>Direct integration with the Printful API ensures you always have access to the latest product data and features.</p>
+            </div>
+            <div class="feature-card animate-on-scroll">
+                <h3>Efficient Caching</h3>
+                <p>Smart caching reduces API calls and improves performance, making your workflow faster and more efficient.</p>
+            </div>
+            <div class="feature-card animate-on-scroll">
+                <h3>User-Friendly Interface</h3>
+                <p>Intuitive design makes it easy to navigate and use, even for those new to Printful's API system.</p>
+            </div>
+        </div>
+        
+        <div class="installation animate-on-scroll">
+            <canvas id="installation-3d" class="decorative-3d-element bottom-left"></canvas>
+            <h2 class="section-title">Quick Start</h2>
+            <p>Try the online demo at: <a href="https://printful.streamlit.app/">https://printful.streamlit.app/</a></p>
+            <p>No installation required! Just visit the link above to start using the tool right away.</p>
+            
+            <h3>Installation</h3>
+            <p>If you prefer to run it locally:</p>
+            <div class="code-block">
+                <code>git clone https://github.com/achortex/Printful_API_Fetcher</code>
+            </div>
+            
+            <h3>Requirements</h3>
+            <div class="code-block">
+                <code>pip install -r requirements.txt</code>
+            </div>
+            
+            <h3>Usage</h3>
+            <div class="code-block">
+                <code>streamlit run app.py</code>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <p>© 2025 Printful API Fetcher. Created by Abdelhamid Chihabi (<a href="https://github.com/achortex" style="color: white; text-decoration: underline;" target="_blank" rel="noopener noreferrer">@Achortex <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.8em; margin-left: 2px;"></i></a>) for personal use while working on print-on-demand integration projects.</p>
+            <div class="footer-links">
+                <a href="https://github.com/achortex/Printful_API_Fetcher" target="_blank">GitHub</a>
+                <a href="https://printful.streamlit.app/" target="_blank">Live Demo</a>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Three.js for 3D decorative objects -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+    <script>
+        // Initialize Three.js scenes for multiple decorative elements
+        const decorativeElements = [
+            { id: 'header-3d', scale: 0.8, autoRotate: true, background: 'transparent' },
+            { id: 'header-3d-left', scale: 0.7, autoRotate: true, background: 'transparent' },
+            { id: 'installation-3d', scale: 0.5, autoRotate: true, background: 'transparent' }
+        ];
+        
+        // Create a scene for each decorative element
+        const scenes = {};
+        const renderers = {};
+        const cameras = {};
+        const controls = {};
+        const objects = {};
+        
+        // Initialize each decorative element
+        decorativeElements.forEach(element => {
+            const canvas = document.getElementById(element.id);
+            if (!canvas) return;
+            
+            // Create renderer
+            const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            renderer.setClearColor(0x000000, 0);
+            renderers[element.id] = renderer;
+            
+            // Create scene
+            const scene = new THREE.Scene();
+            scenes[element.id] = scene;
+            
+            // Create camera
+            const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+            camera.position.set(0, 0, 5);
+            cameras[element.id] = camera;
+            
+            // Add controls
+            const control = new THREE.OrbitControls(camera, canvas);
+            control.enableDamping = true;
+            control.dampingFactor = 0.05;
+            control.autoRotate = element.autoRotate;
+            control.autoRotateSpeed = 1.5;
+            control.enableZoom = false;
+            control.enablePan = false;
+            controls[element.id] = control;
+            
+            // Add lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(1, 1, 1);
+            scene.add(directionalLight);
+            
+            // Create abstract object
+            const abstractObject = createAbstractObject(element.id, element.scale);
+            scene.add(abstractObject);
+            objects[element.id] = abstractObject;
+            
+            // Handle window resize for this canvas
+            window.addEventListener('resize', () => {
+                if (!canvas) return;
+                const width = canvas.clientWidth;
+                const height = canvas.clientHeight;
+                renderer.setSize(width, height);
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+            });
+        });
+        
+        // Create a colorful abstract 3D object with variations based on location
+        function createAbstractObject(id, scale = 1.0) {
+            const group = new THREE.Group();
+            
+            // Different shape configurations based on location
+            let shapes;
+            
+            if (id === 'header-3d') {
+                shapes = [
+                    { geometry: new THREE.TorusKnotGeometry(1.2, 0.4, 100, 16), color: 0x6366F1, position: [0, 0, 0], scale: 0.9 * scale },
+                    { geometry: new THREE.OctahedronGeometry(0.9), color: 0x8B5CF6, position: [1.5, 1.0, -0.8], scale: 0.7 * scale },
+                    { geometry: new THREE.IcosahedronGeometry(0.8), color: 0xEC4899, position: [-1.5, -1.0, -0.8], scale: 0.8 * scale },
+                    { geometry: new THREE.DodecahedronGeometry(0.7), color: 0xF59E0B, position: [0.8, -1.2, 0.5], scale: 0.6 * scale }
+                ];
+            } else if (id === 'header-3d-left') {
+                shapes = [
+                    { geometry: new THREE.SphereGeometry(0.8, 32, 32), color: 0xEC4899, position: [0, 0, 0], scale: 0.8 * scale },
+                    { geometry: new THREE.BoxGeometry(0.9, 0.9, 0.9), color: 0x6366F1, position: [-1.2, 0.8, -0.5], scale: 0.7 * scale },
+                    { geometry: new THREE.TetrahedronGeometry(0.8), color: 0x8B5CF6, position: [1.2, -0.8, -0.5], scale: 0.7 * scale }
+                ];
+            } else if (id === 'features-3d') {
+                shapes = [
+                    { geometry: new THREE.DodecahedronGeometry(0.8), color: 0xF59E0B, position: [0, 0, 0], scale: 0.8 * scale },
+                    { geometry: new THREE.TetrahedronGeometry(0.7), color: 0xEC4899, position: [1.5, 1, -1], scale: 0.6 * scale },
+                    { geometry: new THREE.SphereGeometry(0.6, 32, 32), color: 0x6366F1, position: [-1.5, -1, -1], scale: 0.7 * scale },
+                    { geometry: new THREE.BoxGeometry(0.8, 0.8, 0.8), color: 0x8B5CF6, position: [-1, 1.2, 0.5], scale: 0.5 * scale }
+                ];
+            } else {
+                shapes = [
+                    { geometry: new THREE.TorusGeometry(0.7, 0.2, 16, 100), color: 0xEC4899, position: [0, 0, 0], scale: 0.7 * scale },
+                    { geometry: new THREE.ConeGeometry(0.5, 1, 32), color: 0x6366F1, position: [1, 0.5, -0.5], scale: 0.6 * scale },
+                    { geometry: new THREE.CylinderGeometry(0.4, 0.4, 0.8, 32), color: 0xF59E0B, position: [-1, -0.5, -0.5], scale: 0.5 * scale }
+                ];
+            }
+            
+            shapes.forEach(shape => {
+                const material = new THREE.MeshPhongMaterial({
+                    color: shape.color,
+                    shininess: 100,
+                    specular: 0x444444,
+                    transparent: true,
+                    opacity: 0.9
+                });
+                
+                const mesh = new THREE.Mesh(shape.geometry, material);
+                mesh.position.set(...shape.position);
+                mesh.scale.set(shape.scale, shape.scale, shape.scale);
+                group.add(mesh);
+                
+                // Add animation data to each mesh
+                mesh.userData = {
+                    rotationSpeed: {
+                        x: Math.random() * 0.01 - 0.005,
+                        y: Math.random() * 0.01 - 0.005,
+                        z: Math.random() * 0.01 - 0.005
+                    },
+                    floatSpeed: Math.random() * 0.005 + 0.002,
+                    floatHeight: Math.random() * 0.2 + 0.1,
+                    initialY: shape.position[1],
+                    time: Math.random() * Math.PI * 2
+                };
+            });
+            
+            return group;
+        }
+        
+        // Animation loop for all decorative elements
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Update and render each scene
+            decorativeElements.forEach(element => {
+                const id = element.id;
+                if (!scenes[id] || !objects[id]) return;
+                
+                // Animate each part of the abstract object
+                objects[id].children.forEach(mesh => {
+                    // Rotate each mesh
+                    mesh.rotation.x += mesh.userData.rotationSpeed.x;
+                    mesh.rotation.y += mesh.userData.rotationSpeed.y;
+                    mesh.rotation.z += mesh.userData.rotationSpeed.z;
+                    
+                    // Float up and down
+                    mesh.userData.time += mesh.userData.floatSpeed;
+                    mesh.position.y = mesh.userData.initialY + Math.sin(mesh.userData.time) * mesh.userData.floatHeight;
+                });
+                
+                // Update controls and render
+                if (controls[id]) controls[id].update();
+                if (renderers[id] && cameras[id]) renderers[id].render(scenes[id], cameras[id]);
+            });
+        }
+        
+        animate();
+        
+        // Scroll animation
+        const animateOnScrollElements = document.querySelectorAll('.animate-on-scroll');
+        
+        function checkScroll() {
+            animateOnScrollElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', checkScroll);
+        checkScroll(); // Check on page load
+    </script>
+</body>
+</html>
