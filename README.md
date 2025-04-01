@@ -53,21 +53,18 @@ streamlit run app.py
 ├── requirements.txt        # Project dependencies
 ├── README.md               # This file
 ├── src/
-│   ├── api/                # API interaction modules
-│   │   ├── __init__.py
-│   │   └── printful.py     # Printful API client
-│   ├── ui/                 # UI components
-│   │   ├── __init__.py
-│   │   ├── common.py       # Shared UI elements
-│   │   ├── mockup.py       # Mockup generation UI
-│   │   └── template.py     # Template generation UI
-│   └── utils/              # Utility functions
-│       ├── __init__.py
-│       ├── file.py         # File handling utilities
-│       └── image.py        # Image processing utilities
-└── public/                 # Public assets directory
-    ├── mockups/            # Generated mockups
-    └── templates/          # Generated templates
+    ├── api/                # API interaction modules
+    │   ├── __init__.py
+    │   └── printful.py     # Printful API client
+    ├── ui/                 # UI components
+    │   ├── __init__.py
+    │   ├── common.py       # Shared UI elements
+    │   ├── mockup.py       # Mockup generation UI
+    │   └── template.py     # Template generation UI
+    └── utils/              # Utility functions
+        ├── __init__.py
+        ├── file.py         # File handling utilities
+        └── image.py        # Image processing utilities
 ```
 
 ## Personal Use Case
